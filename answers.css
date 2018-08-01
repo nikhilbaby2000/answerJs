@@ -1,0 +1,12 @@
+[data-supporter] {
+    color: black;
+}
+[answer-selected='1'] {
+    background: #ccc;
+}
+/*[data-option] {
+    border-bottom: 1px solid #ccc;
+}*/
+[data-option]:hover {
+    background: #ccc;
+}
