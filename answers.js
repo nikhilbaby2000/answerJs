@@ -26,7 +26,8 @@ var definedAnswers = {
     data_item_chosen_attribute_name: 'answer-selected',
     data_item_chosen_attribute_value: '1',
     
-    answer_data_list_prefix : 'answer_data_list'
+    answer_data_list_prefix : 'answer_data_list',
+    debug : false
 };
 
 var definedDefaults = {
@@ -96,6 +97,7 @@ var Answers =  {
     },
     loadData: function (input_element_id, data) {
 
+        Answers.logger(data);
         if (typeof data == 'undefined')
             return 'Empty Data';
 
@@ -244,7 +246,7 @@ var Answers =  {
         }
 
         window.setTimeout(function () {
-            console.log('Suggest Used Engines Emptied:');
+            Answers.logger('Suggest Used Engines Emptied:');
 
             if(definedSupporters.used_engines.length > 2)
             {
@@ -275,10 +277,10 @@ var Answers =  {
         var best_choice_engine = this.array_diff(definedSupporters.all_engines, definedSupporters.used_engines)[0];
 
         engine_url = this.getEngineDomainUrl(best_choice_engine).google;
-        console.log('Suggest Helper Engine Url changed to ' + best_choice_engine + ' ' + engine_url);
+        Answers.logger('Suggest Helper Engine Url changed to ' + best_choice_engine + ' ' + engine_url);
         definedSupporters.last_used_url_loc = best_choice_engine;
 
-        console.log('Given url:' + engine_url);
+        Answers.logger('Given url:' + engine_url);
 
         definedSupporters.google_engine_url[best_choice_engine] = engine_url;
 
@@ -288,8 +290,10 @@ var Answers =  {
         }
 
         return engine_url;
+    },
+    logger: function () {
+        definedAnswers.debug ? console.log(arguments[0]) : '';
     }
-
 };
 
 var Suggesters = {
@@ -304,8 +308,8 @@ var Suggesters = {
 
         if(definedAjaxPointers.google != true && current_used_engines_length > 20)
         {
-            console.log('Google Core Block: Suggest Unavailable: Currently used engines exceeded the limit');
-            console.log('Suggest Used Engines: ', definedSupporters.used_engines);
+            Answers.logger('Google Core Block: Suggest Unavailable: Currently used engines exceeded the limit');
+            Answers.logger('Suggest Used Engines: ', definedSupporters.used_engines);
 
             var data_list = [];
             var msg = 'Google Instant is unavailable. Press Enter to search.';
@@ -322,7 +326,7 @@ var Suggesters = {
         {
             engine_url = Answers.suggest_engine_url();
             Answers.push_to_used_engines(definedSupporters.last_used_url_loc);
-            console.log('Received url:' + engine_url);
+            Answers.logger('Received url:' + engine_url);
             definedAjaxPointers.google = true;
             definedSupporters.google_auto_suggest_msg_show = true;
         }
@@ -330,7 +334,7 @@ var Suggesters = {
         {
             Answers.push_to_used_engines(definedSupporters.last_used_url_loc);
         }
-        console.log('E u:' + engine_url);
+        Answers.logger('E u:' + engine_url);
 
         if (query == '' || engine_url == 'undefined' )
         {
@@ -351,41 +355,18 @@ var Suggesters = {
             },
             error: function (jqXHR, textStatus, errorThrown ) {
 
-                //Turn Off Temp. Next Search will pick another url.
-                DataSuggestBinder.Handlers.dataListHide(input_element_id);
-                definedAjaxPointers.google = false;
+                if (textStatus == 'timeout') {
+                    console.log('Timeout', jqXHR.responseJSON)
+                    Suggesters.successDataHandler(jqXHR.responseJSON, query, input_element_id)
+                } else {
+                    Answers.logger(jqXHR, textStatus, errorThrown );
+                    //Turn Off Temp. Next Search will pick another url.
+                    DataSuggestBinder.Handlers.dataListHide(input_element_id);
+                    definedAjaxPointers.google = false;
+                }
             },
             success: function (response) {
-
-                var single_suggestions = response[0];
-                var best_suggestions = (response[1]);
-                var data_list = [];
-                var count = 1;
-
-                $.each(best_suggestions, function (index, phrase) {
-
-                    if(phrase.indexOf(query) == 0)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-
-                    phrase = phrase.substr(query.length);
-                    data_list.push({ option: query + phrase, text: query +'<span style="font-weight: 500; !important;">'+ phrase +'</span>' });
-
-                    if(count > definedAnswers.allowed_data_length)
-                    {
-                        return false;
-                    }
-
-                });
-
-                Answers.loadData(input_element_id, data_list);
-                Answers.rePositionDataList($('#'+input_element_id));
-
+                Suggesters.successDataHandler(response, query, input_element_id)
             },
             type: 'GET',
             overwrite_container: false
@@ -426,7 +407,7 @@ var Suggesters = {
             statusCode: {
                 403: function ()
                 {
-                    consle.log('Amazon error out!');
+                    Answers.logger('Amazon error out!');
                     amazon_flag = false;
                     window.setTimeout(function () {
                         amazon_flag = true;
@@ -434,40 +415,41 @@ var Suggesters = {
                 }
             },
             success: function (response) {
-
-                var best_suggestions = (response[1]);
-                var data_list = [];
-                var count = 1;
-
-                $.each(best_suggestions, function (index, phrase) {
-
-                    if(phrase.indexOf(query) == 0)
-                    {
-                        count++;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-
-                    phrase = phrase.substr(query.length);
-                    data_list.push({ option: query + phrase, text: query +'<span style="font-weight: 500; !important;">'+ phrase +'</span>' });
-
-                    if(count > definedAnswers.allowed_data_length)
-                    {
-                        return false;
-                    }
-
-                });
-
-                Answers.loadData(input_element_id, data_list);
-                Answers.rePositionDataList($('#'+input_element_id));
-
+                Suggesters.successDataHandler(response, query, input_element_id)
             },
             type: 'GET',
             overwrite_container: false
         };
         Suggesters.amazon_ajax_call_var = $.ajax(input);
+    },
+    successDataHandler: function (response, query, input_element_id) {
+        var best_suggestions = (response[1]);
+        var data_list = [];
+        var count = 1;
+
+        $.each(best_suggestions, function (index, phrase) {
+
+            if(phrase.indexOf(query) == 0)
+            {
+                count++;
+            }
+            else
+            {
+                return true;
+            }
+
+            phrase = phrase.substr(query.length);
+            data_list.push({ option: query + phrase, text: query +'<span style="font-weight: 500; !important;">'+ phrase +'</span>' });
+
+            if(count > definedAnswers.allowed_data_length)
+            {
+                return false;
+            }
+
+        });
+
+        Answers.loadData(input_element_id, data_list);
+        Answers.rePositionDataList($('#'+input_element_id));
     }
 };
 
@@ -737,9 +719,4 @@ $(window).resize(function () {
     Answers.rePositionAllDataLists();
 });
 
-
-
 //Todo: On focus of option and pressing enter.
-
-
-
