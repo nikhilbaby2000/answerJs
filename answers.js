@@ -10,42 +10,42 @@
  * */
 
 var definedAnswers = {
-    main_attribute_name : 'data-supporter',
-    main_attribute_value : 'answers',
-    data_wrapper_container_class : 'data-list-wrapper',
-    data_value_attribute_name : 'data-option',
-    allowed_data_length : 5,
+    main_attribute_name: 'data-supporter',
+    main_attribute_value: 'answers',
+    data_wrapper_container_class: 'data-list-wrapper',
+    data_value_attribute_name: 'data-option',
+    allowed_data_length: 5,
 
-    data_suggester_attribute_name : 'data-suggester',
-    google_suggester_attribute_value : 'google-suggester',
-    amazon_suggester_attribute_value : 'amazon-suggester',
-    bing_suggester_attribute_value : 'bing-suggester',
-    youtube_suggester_attribute_value : 'youtube-suggester',
+    data_suggester_attribute_name: 'data-suggester',
+    google_suggester_attribute_value: 'google-suggester',
+    amazon_suggester_attribute_value: 'amazon-suggester',
+    bing_suggester_attribute_value: 'bing-suggester',
+    youtube_suggester_attribute_value: 'youtube-suggester',
 
     data_item_input_id_attribute_name: 'data-input-element-id',
     data_item_chosen_attribute_name: 'answer-selected',
     data_item_chosen_attribute_value: '1',
-    
-    answer_data_list_prefix : 'answer_data_list',
-    debug : false
+
+    answer_data_list_prefix: 'answer_data_list',
+    debug: false
 };
 
 var definedDefaults = {
-    font_family : 'Source Sans Pro,sans-serif',
-    font_weight : '300',
-    default_remover_width : 1,
-    default_wrapper_remover_width : 3,
-    default_extra_top : -2,
-    input_to_data_height_ratio : 0.8
+    font_family: 'Source Sans Pro,sans-serif',
+    font_weight: '300',
+    default_remover_width: 1,
+    default_wrapper_remover_width: 3,
+    default_extra_top: -2,
+    input_to_data_height_ratio: 0.8
 };
 
 var definedSupporters = {
     google_auto_suggest_msg_timeout: 5000, //milli seconds
     google_auto_suggest_msg_show: true, //milli seconds
     last_used_url_loc: 'us',
-    google_engine_url: { us: "www.google.com", uk: "www.google.co.uk" },
+    google_engine_url: {us: "www.google.com", uk: "www.google.co.uk"},
     used_engines: [],
-    all_engines: ["uk","us","af","al","dz","as","ad","ao","ag","ar","am","au","at","az","bh","bd","by","be","bz","bj","bo","ba","bw","br","bn","bg","bf","bi","kh","cm","ca","cv","cf","td","cl","hk","cc","co","cg","ck","cr","ci","hr","cz","cd","dk","dj","dm","do","tl","ec","eg","sv","et","fj","fi","fr","ga","ge","de","gh","gr","gt","gy","ht","hn","hu","is","in","id","iq","ie","il","it","jm","jp","jo","kz","ke","ki","kw","la","lv","lb","ls","ly","li","lt","lu","mk","mg","mw","my","mv","ml","mt","mu","mx","fm","md","mn","ma","mz","na","nr","np","nl","nz","ni","ne","ng","nu","nf","no","om","pk","pa","py","pe","ph","pn","pl","pt","qa","ro","ru","rw","sh","vc","ws","sm","st","sa","sn","rs","sc","sl","sg","sk","si","sb","so","za","kr","es","lk","se","ch","tj","tz","th","bs","gm","tg","tk","to","tt","tn","tr","tm","ug","ua","ae","uy","uz","vu","ve","vn","zm","zw"]
+    all_engines: ["uk", "us", "af", "al", "dz", "as", "ad", "ao", "ag", "ar", "am", "au", "at", "az", "bh", "bd", "by", "be", "bz", "bj", "bo", "ba", "bw", "br", "bn", "bg", "bf", "bi", "kh", "cm", "ca", "cv", "cf", "td", "cl", "hk", "cc", "co", "cg", "ck", "cr", "ci", "hr", "cz", "cd", "dk", "dj", "dm", "do", "tl", "ec", "eg", "sv", "et", "fj", "fi", "fr", "ga", "ge", "de", "gh", "gr", "gt", "gy", "ht", "hn", "hu", "is", "in", "id", "iq", "ie", "il", "it", "jm", "jp", "jo", "kz", "ke", "ki", "kw", "la", "lv", "lb", "ls", "ly", "li", "lt", "lu", "mk", "mg", "mw", "my", "mv", "ml", "mt", "mu", "mx", "fm", "md", "mn", "ma", "mz", "na", "nr", "np", "nl", "nz", "ni", "ne", "ng", "nu", "nf", "no", "om", "pk", "pa", "py", "pe", "ph", "pn", "pl", "pt", "qa", "ro", "ru", "rw", "sh", "vc", "ws", "sm", "st", "sa", "sn", "rs", "sc", "sl", "sg", "sk", "si", "sb", "so", "za", "kr", "es", "lk", "se", "ch", "tj", "tz", "th", "bs", "gm", "tg", "tk", "to", "tt", "tn", "tr", "tm", "ug", "ua", "ae", "uy", "uz", "vu", "ve", "vn", "zm", "zw"]
 };
 
 var definedAjaxPointers = {
@@ -60,34 +60,32 @@ defindeMessges = {
     google_error_solved_message: 'Google Auto Suggest is back online.'
 };
 
-var Answers =  {
+var Answers = {
 
     bind: function bind(input_element_id) {
         //Bind on whole document
-        if(typeof input_element_id == 'undefined')
-        {
+        if (typeof input_element_id == 'undefined') {
             var all_answer_elements = Answers.getAllAnswerInputElements();
             $.each(all_answer_elements, function (index, element) {
                 Answers.putDefaultDataList(element);
             });
         }
-        else
-        {
-            Answers.putDefaultDataList($('input#'+ input_element_id));
+        else {
+            Answers.putDefaultDataList($('input#' + input_element_id));
         }
     },
     replaceUnits: function (string_value) {
 
-        if(typeof string_value == 'undefined' || string_value == '')
+        if (typeof string_value == 'undefined' || string_value == '')
             return 0;
 
-        return  parseInt(string_value.replace(/[^-\d\.]/g, ''));
+        return parseInt(string_value.replace(/[^-\d\.]/g, ''));
     },
     getAllAnswerInputElements: function () {
-        return  $('input['+ definedAnswers.main_attribute_name +'="' + definedAnswers.main_attribute_value + '"]')
+        return $('input[' + definedAnswers.main_attribute_name + '="' + definedAnswers.main_attribute_value + '"]')
     },
     getDataListContainer: function (input_element_id) {
-        return $('#' + definedAnswers.answer_data_list_prefix + '_' + input_element_id );
+        return $('#' + definedAnswers.answer_data_list_prefix + '_' + input_element_id);
     },
     getDataListWrapper: function (input_element_id) {
         return $('#' + definedAnswers.answer_data_list_prefix + '_' + input_element_id).find('.' + definedAnswers.data_wrapper_container_class);
@@ -111,14 +109,13 @@ var Answers =  {
         $.each(data, function (index, data_item_object) {
 
             var instant_un_available_error_background = '';
-            if(typeof data_item_object.unavailable != 'undefined')
-            {
+            if (typeof data_item_object.unavailable != 'undefined') {
                 instant_un_available_error_background = ' background: #fff1a8 !important; ';
             }
 
             var option_html =
-                '<div style="' + instant_un_available_error_background + 'height: '+ data_element_height +'; font-size: '+ element_font_size +'; font-weight: '+ definedDefaults.font_weight +';" '+ definedAnswers.data_value_attribute_name +'="'+data_item_object.option+'" '+ definedAnswers.data_item_input_id_attribute_name +'="'+ input_element_id +'">' +
-                    data_item_object.text +
+                '<div style="' + instant_un_available_error_background + 'height: ' + data_element_height + '; font-size: ' + element_font_size + '; font-weight: ' + definedDefaults.font_weight + ';" ' + definedAnswers.data_value_attribute_name + '="' + data_item_object.option + '" ' + definedAnswers.data_item_input_id_attribute_name + '="' + input_element_id + '">' +
+                data_item_object.text +
                 '</div>';
 
             $(data_list_container).find('.' + definedAnswers.data_wrapper_container_class).append(option_html);
@@ -144,7 +141,7 @@ var Answers =  {
         var element_padding_right = $(element).css('padding-right');
         element_z_index = element_z_index == 'auto' ? 10 : parseInt(element_z_index) + 10;
 
-        element_width  = this.replaceUnits(element_width) - this.replaceUnits(element_border_width) - ( this.replaceUnits(element_padding_left) + this.replaceUnits(element_padding_right) ) - definedDefaults.default_remover_width;
+        element_width = Math.abs(this.replaceUnits(element_width) - this.replaceUnits(element_border_width) - (this.replaceUnits(element_padding_left) + this.replaceUnits(element_padding_right)) - definedDefaults.default_remover_width);
         element_position_top = element_position_top + this.replaceUnits(element_height) + this.replaceUnits(element_border_width) + definedDefaults.default_extra_top;
 
         element_text_indent = this.replaceUnits(element_text_indent) + this.replaceUnits(element_padding_left) + 'px';
@@ -152,9 +149,9 @@ var Answers =  {
         $('[id=' + definedAnswers.answer_data_list_prefix + '_' + element_id + ']').remove();
 
         var empty_data_list =
-            '<div id="'+ definedAnswers.answer_data_list_prefix + '_' + element_id +'" style="background: #fff; z-index: '+ element_z_index +'; width: '+ element_width + '; font-family: '+ definedDefaults.font_family +'; font-weight: '+ definedDefaults.font_weight +'; font-size: '+element_font_size+' !important; border: solid 1px #ccc; box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08); display: none; cursor: default; position: absolute; top: ' + element_position_top + '; left: '+ element_position_left +';">' +
-                '<div style="text-align: left; overflow: auto; text-indent: '+ element_text_indent +'; width: inherit;" class="'+ definedAnswers.data_wrapper_container_class +'">'+
-                '</div>'+
+            '<div id="' + definedAnswers.answer_data_list_prefix + '_' + element_id + '" style="background: #fff; z-index: ' + element_z_index + '; width: ' + element_width + '; font-family: ' + definedDefaults.font_family + '; font-weight: ' + definedDefaults.font_weight + '; font-size: ' + element_font_size + ' !important; border: solid 1px #ccc; box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08); display: none; cursor: default; position: absolute; top: ' + element_position_top + '; left: ' + element_position_left + ';">' +
+            '<div style="text-align: left; overflow: auto; text-indent: ' + element_text_indent + '; width: inherit;" class="' + definedAnswers.data_wrapper_container_class + '">' +
+            '</div>' +
             '</div>';
 
         $('body').append(empty_data_list);
@@ -183,16 +180,20 @@ var Answers =  {
 
         data_padding_top = (parseInt(this.replaceUnits(data_padding_top)) - parseInt(3)) + 'px';
 
-        var re_position_values  = {
-            width: this.replaceUnits(element_width) - this.replaceUnits(element_border_width) - definedDefaults.default_remover_width,
-            top: element_position_top + this.replaceUnits(element_height) + this.replaceUnits(element_border_width) + definedDefaults.default_extra_top,
+        var listWidth = !(this.replaceUnits(element_border_width) > this.replaceUnits(element_width))
+            ? Math.abs(this.replaceUnits(element_width) - this.replaceUnits(element_border_width) - definedDefaults.default_remover_width)
+            : Math.abs(this.replaceUnits(element_width) - definedDefaults.default_remover_width);
+
+        var re_position_values = {
+            width: listWidth,
+            top: element_position_top + this.replaceUnits(element_height) + definedDefaults.default_extra_top,
             left: element_position_left,
             'z-index': element_z_index,
             'font-size': element_font_size
         };
 
         var data_attributes = {
-            width: this.replaceUnits(element_width) - this.replaceUnits(element_border_width) - definedDefaults.default_remover_width,
+            width: listWidth,
             height: this.replaceUnits(element_height) * definedDefaults.input_to_data_height_ratio,
             'font-size': element_font_size,
             'padding-top': data_padding_top,
@@ -205,7 +206,7 @@ var Answers =  {
         Answers.getDataListContainer(element_id).children().children().css(data_attributes)
     },
     getChosenAnswer: function (input_element_id) {
-        return $('#' + definedAnswers.answer_data_list_prefix + '_' + input_element_id).find('.' + definedAnswers.data_wrapper_container_class).find('[' + definedAnswers.data_item_chosen_attribute_name + '="' + definedAnswers.data_item_chosen_attribute_value + '"]') ;
+        return $('#' + definedAnswers.answer_data_list_prefix + '_' + input_element_id).find('.' + definedAnswers.data_wrapper_container_class).find('[' + definedAnswers.data_item_chosen_attribute_name + '="' + definedAnswers.data_item_chosen_attribute_value + '"]');
     },
     setSelectedOption: function (input_element_id, selected_option_element) {
         var selected_option_value = $(selected_option_element).attr(definedAnswers.data_value_attribute_name);
@@ -222,48 +223,45 @@ var Answers =  {
     },
     getEngineDomainUrl: function (selected_location_abbr) {
 
-        var result = { google: 'www.google.com', bing: '', 'yahoo': '', amazon: 'completion.amazon.co.uk' };
+        var result = {google: 'www.google.com', bing: '', 'yahoo': '', amazon: 'completion.amazon.co.uk'};
 
-        if (typeof definedEngineData[selected_location_abbr] != 'undefined')
-        {
+        if (typeof definedEngineData[selected_location_abbr] != 'undefined') {
             var selected_location_engine_data = definedEngineData[selected_location_abbr];
 
             result.google = typeof selected_location_engine_data.google != 'undefined' ? selected_location_engine_data.google.engine_domain : result.google;
-            result.amazon = typeof selected_location_engine_data.amazon != 'undefined' ? selected_location_engine_data.amazon.engine_domain : result.amazon ;
+            result.amazon = typeof selected_location_engine_data.amazon != 'undefined' ? selected_location_engine_data.amazon.engine_domain : result.amazon;
         }
 
         return result;
     },
-    push_to_used_engines: function(engine) {
+    push_to_used_engines: function (engine) {
 
         var current_length = definedSupporters.used_engines.length;
         definedSupporters.used_engines.push(engine);
-        definedSupporters.used_engines = $.unique( definedSupporters.used_engines ).reverse();
+        definedSupporters.used_engines = $.unique(definedSupporters.used_engines).reverse();
 
-        if(current_length == definedSupporters.used_engines.length)
-        {
+        if (current_length == definedSupporters.used_engines.length) {
             return;
         }
 
         window.setTimeout(function () {
             Answers.logger('Suggest Used Engines Emptied:');
 
-            if(definedSupporters.used_engines.length > 2)
-            {
+            if (definedSupporters.used_engines.length > 2) {
                 definedSupporters.used_engines = [];
                 return;
             }
 
             definedSupporters.used_engines.pop();
 
-        }, 5*60*1000);
+        }, 5 * 60 * 1000);
 
     },
-    array_diff: function(array_1, array_2) {
+    array_diff: function (array_1, array_2) {
 
         //Array 1 - Array 2
         var array_diffed = [];
-        $.each(array_1, function(key, value) {
+        $.each(array_1, function (key, value) {
             if (-1 === array_2.indexOf(value)) {
                 array_diffed.push(value);
             }
@@ -284,8 +282,7 @@ var Answers =  {
 
         definedSupporters.google_engine_url[best_choice_engine] = engine_url;
 
-        if(engine_url == 'undefined')
-        {
+        if (engine_url == 'undefined') {
             return this.getEngineDomainUrl('us').google;
         }
 
@@ -304,40 +301,41 @@ var Suggesters = {
     google: function (query, language_code, location_code, input_element_id) {
 
         var current_used_engines_length = definedSupporters.used_engines.length;
-        var ajax_req_object;
+        var queryParts = Suggesters.queryPrePrepare(query, input_element_id);
 
-        if(definedAjaxPointers.google != true && current_used_engines_length > 20)
-        {
+        if (definedAjaxPointers.google != true && current_used_engines_length > 20) {
             Answers.logger('Google Core Block: Suggest Unavailable: Currently used engines exceeded the limit');
             Answers.logger('Suggest Used Engines: ', definedSupporters.used_engines);
 
             var data_list = [];
             var msg = 'Google Instant is unavailable. Press Enter to search.';
-            data_list.push({ option: query, text: '<span style="font-weight: 400; !important; background: #fff1a8;">'+ msg +'</span>', unavailable: 1 });
+            data_list.push({
+                option: query,
+                text: '<span style="font-weight: 400; !important; background: #fff1a8;">' + msg + '</span>',
+                unavailable: 1
+            });
             Answers.loadData(input_element_id, data_list);
 
-            return ;
+            return;
         }
 
         var engine_url = definedSupporters.google_engine_url[definedSupporters.last_used_url_loc];
         Answers.getDataListWrapper(input_element_id).html('');
         DataSuggestBinder.Handlers.dataListHide(input_element_id);
-        if(definedAjaxPointers.google != true && definedSupporters.google_auto_suggest_msg_show)
-        {
+
+        if (definedAjaxPointers.google != true && definedSupporters.google_auto_suggest_msg_show) {
             engine_url = Answers.suggest_engine_url();
             Answers.push_to_used_engines(definedSupporters.last_used_url_loc);
             Answers.logger('Received url:' + engine_url);
             definedAjaxPointers.google = true;
             definedSupporters.google_auto_suggest_msg_show = true;
         }
-        else
-        {
+        else {
             Answers.push_to_used_engines(definedSupporters.last_used_url_loc);
         }
         Answers.logger('E u:' + engine_url);
 
-        if (query == '' || engine_url == 'undefined' )
-        {
+        if (query == '' || engine_url == 'undefined') {
             return;
         }
 
@@ -347,19 +345,19 @@ var Suggesters = {
             url: 'https://' + engine_url + '/complete/search',
             dataType: "jsonp",
             data: {
-                output:'search',
-                q: query,
+                output: 'search',
+                q: queryParts.query,
                 client: "chrome",
                 hl: language_code,//'en',
                 gl: location_code //'in'
             },
-            error: function (jqXHR, textStatus, errorThrown ) {
+            error: function (jqXHR, textStatus, errorThrown) {
 
-                if (textStatus == 'timeout') {
-                    console.log('Timeout', jqXHR.responseJSON)
+                console.log('Timeout', jqXHR)
+                if (textStatus == 'timeout' && typeof jqXHR.responseJSON != undefined) {
                     Suggesters.successDataHandler(jqXHR.responseJSON, query, input_element_id)
                 } else {
-                    Answers.logger(jqXHR, textStatus, errorThrown );
+                    Answers.logger(jqXHR, textStatus, errorThrown);
                     //Turn Off Temp. Next Search will pick another url.
                     DataSuggestBinder.Handlers.dataListHide(input_element_id);
                     definedAjaxPointers.google = false;
@@ -380,8 +378,7 @@ var Suggesters = {
         Answers.getDataListWrapper(input_element_id).html('');
         DataSuggestBinder.Handlers.dataListHide(input_element_id);
 
-        if (query == '')
-        {
+        if (query == '') {
             return;
         }
 
@@ -393,20 +390,19 @@ var Suggesters = {
             dataType: "jsonp",
             ajax_retry: 0,
             data: {
-                method:'completion',
+                method: 'completion',
                 q: query,
                 mkt: "44571",
-                client:'amazon-search-ui',
-                'search-alias':'aps',
-                qs:'',
-                cf:1,
-                fb:1,
-                sc:1,
-                callback:''
+                client: 'amazon-search-ui',
+                'search-alias': 'aps',
+                qs: '',
+                cf: 1,
+                fb: 1,
+                sc: 1,
+                callback: ''
             },
             statusCode: {
-                403: function ()
-                {
+                403: function () {
                     Answers.logger('Amazon error out!');
                     amazon_flag = false;
                     window.setTimeout(function () {
@@ -423,33 +419,48 @@ var Suggesters = {
         Suggesters.amazon_ajax_call_var = $.ajax(input);
     },
     successDataHandler: function (response, query, input_element_id) {
-        var best_suggestions = (response[1]);
+        var best_suggestions = response[1];
         var data_list = [];
         var count = 1;
+        var queryParts = Suggesters.queryPrePrepare(query, input_element_id);
+        query = queryParts.query;
 
         $.each(best_suggestions, function (index, phrase) {
 
-            if(phrase.indexOf(query) == 0)
-            {
+            if (phrase.indexOf(query) == 0) {
                 count++;
             }
-            else
-            {
+            else {
                 return true;
             }
 
             phrase = phrase.substr(query.length);
-            data_list.push({ option: query + phrase, text: query +'<span style="font-weight: 500; !important;">'+ phrase +'</span>' });
+            data_list.push({
+                option: queryParts.preQuery + query + phrase,
+                text: (queryParts.preQuery != '' ? '... ' : queryParts.preQuery) + query + '<span style="font-weight: 500; !important;">' + phrase + '</span>'
+            });
 
-            if(count > definedAnswers.allowed_data_length)
-            {
+            if (count > definedAnswers.allowed_data_length) {
                 return false;
             }
 
         });
 
         Answers.loadData(input_element_id, data_list);
-        Answers.rePositionDataList($('#'+input_element_id));
+        Answers.rePositionDataList($('#' + input_element_id));
+    },
+    queryPrePrepare: function (query, input_element_id) {
+        var queryParts = query.split(' ');
+        var wordLength = $('#' + input_element_id).attr('data-word-length');
+
+        var searchQuery = typeof wordLength != undefined
+            ? (wordLength > queryParts.length ? query : queryParts.splice(queryParts.length - wordLength).join(' '))
+            : query;
+
+        return {
+            query: searchQuery,
+            preQuery: (searchQuery != query ? query.substr(0, query.indexOf(searchQuery)) : '')
+        }
     }
 };
 
@@ -458,8 +469,7 @@ var DataSuggestBinder = {
         googleSuggesterDataSource: function googleSuggesterDataSource(element_id) {
 
             var check_for_existing_data_list = Answers.getDataListContainer(element_id)[0];
-            if (typeof check_for_existing_data_list == 'undefined')
-            {
+            if (typeof check_for_existing_data_list == 'undefined') {
                 Answers.putDefaultDataList(this);
             }
 
@@ -475,8 +485,7 @@ var DataSuggestBinder = {
         amazonSuggesterDataSource: function amazonSuggesterDataSource(element_id) {
 
             var check_for_existing_data_list = Answers.getDataListContainer(element_id)[0];
-            if (typeof check_for_existing_data_list == 'undefined')
-            {
+            if (typeof check_for_existing_data_list == 'undefined') {
                 Answers.putDefaultDataList(this);
             }
 
@@ -494,16 +503,18 @@ var DataSuggestBinder = {
         bindDataSuggester: function bindDataSuggester(element_id, data_suggester_name) {
             Answers.bind(element_id);
 
-            if(typeof data_suggester_name == 'undefined')
-            {
+            if (typeof data_suggester_name == 'undefined') {
                 return 'Unknown Data Suggester';
             }
 
-            switch (data_suggester_name)
-            {
-                case definedAnswers.google_suggester_attribute_value : DataSuggestBinder.DataBinders.bindGoogleDataSuggester(element_id); break;
+            switch (data_suggester_name) {
+                case definedAnswers.google_suggester_attribute_value :
+                    DataSuggestBinder.DataBinders.bindGoogleDataSuggester(element_id);
+                    break;
 
-                case definedAnswers.amazon_suggester_attribute_value : DataSuggestBinder.DataBinders.bindAmazonDataSuggester(element_id); break;
+                case definedAnswers.amazon_suggester_attribute_value :
+                    DataSuggestBinder.DataBinders.bindAmazonDataSuggester(element_id);
+                    break;
             }
 
             DataSuggestBinder.EventBinders.displayEvents(element_id);
@@ -540,68 +551,60 @@ var DataSuggestBinder = {
             Answers.rePositionDataList($('#' + element_id));
 
             var data_list_items = Answers.getDataListHtmlDataArray(element_id);
-            if (data_list_items.length > 0)
-            {
+            if (data_list_items.length > 0) {
                 Answers.getDataListContainer(element_id).fadeIn(50);
             }
         },
         provideSuggestions: function provideSuggestions(element_id, suggester_source_name) {
 
             //Routing to proper Source Binding for Suggestions
-            switch (suggester_source_name)
-            {
+            switch (suggester_source_name) {
                 case definedAnswers.google_suggester_attribute_value:
-                        DataSuggestBinder.DataSources.googleSuggesterDataSource(element_id);
-                        break;
+                    DataSuggestBinder.DataSources.googleSuggesterDataSource(element_id);
+                    break;
                 case definedAnswers.amazon_suggester_attribute_value:
-                        DataSuggestBinder.DataSources.amazonSuggesterDataSource(element_id);
-                        break;
+                    DataSuggestBinder.DataSources.amazonSuggesterDataSource(element_id);
+                    break;
             }
 
         },
         dataListKeyDown: function dataListKeyDown(element_id) {
 
             var all_data_list_items = Answers.getDataListHtmlDataArray(element_id);
-            if(all_data_list_items.length == 0)
-            {
-                return ;
+            if (all_data_list_items.length == 0) {
+                return;
             }
             DataSuggestBinder.Handlers.dataListShow(element_id);
 
             var current_chosen_option = Answers.getChosenAnswer(element_id)[0];
 
             //No option is chosen. So Choose the first one by default. 2nd Condition to check if some one has manipulated it or not.
-            if(typeof current_chosen_option == 'undefined')
-            {
+            if (typeof current_chosen_option == 'undefined') {
                 Answers.setSelectedOption(element_id, all_data_list_items[0]);
             }
-            else
-            {
+            else {
                 //Choose next item
-                Answers.setSelectedOption(element_id, $(current_chosen_option).next() );
+                Answers.setSelectedOption(element_id, $(current_chosen_option).next());
             }
 
         },
         dataListKeyUp: function dataListKeyUp(element_id) {
 
             var all_data_list_items = Answers.getDataListHtmlDataArray(element_id);
-            if(all_data_list_items.length == 0)
-            {
-                return ;
+            if (all_data_list_items.length == 0) {
+                return;
             }
             DataSuggestBinder.Handlers.dataListShow(element_id);
 
             var current_chosen_option = Answers.getChosenAnswer(element_id)[0];
 
             //No option is chosen. So Choose the Last one by default. 2nd Condition to check if some one has manipulated it or not.
-            if(typeof current_chosen_option == 'undefined' || current_chosen_option.length > 1)
-            {
+            if (typeof current_chosen_option == 'undefined' || current_chosen_option.length > 1) {
                 Answers.setSelectedOption(element_id, all_data_list_items[all_data_list_items.length - 1]);
             }
-            else
-            {
+            else {
                 //Choose Previous item
-                Answers.setSelectedOption(element_id, $(current_chosen_option).prev() );
+                Answers.setSelectedOption(element_id, $(current_chosen_option).prev());
             }
 
         },
@@ -619,9 +622,8 @@ var DataSuggestBinder = {
                 Answers.getDataListWrapper(element_id).html('');
                 DataSuggestBinder.Handlers.provideSuggestions(element_id, suggester_source_name);
                 var data_length = Answers.getDataListHtmlDataArray(element_id).length;
-                if(data_length == 0)
-                {
-                    return ;
+                if (data_length == 0) {
+                    return;
                 }
 
                 DataSuggestBinder.Handlers.dataListShow(element_id);
@@ -637,26 +639,23 @@ var DataSuggestBinder = {
         },
         onSearchInput: function onSearchInput(element_id) {
             $('#' + element_id).on('input', function () {
-                    var suggester_source_name = $(this).attr(definedAnswers.data_suggester_attribute_name);
-                    DataSuggestBinder.Handlers.provideSuggestions(element_id, suggester_source_name);
+                var suggester_source_name = $(this).attr(definedAnswers.data_suggester_attribute_name);
+                DataSuggestBinder.Handlers.provideSuggestions(element_id, suggester_source_name);
             });
         },
         keyDownOnInputElement: function keyDownOnInputElement(element_id) {
             $('#' + element_id).keydown(function (event) {
 
                 //ArrowDown - 40
-                if(event.keyCode == 40)
-                {
+                if (event.keyCode == 40) {
                     DataSuggestBinder.Handlers.dataListKeyDown(element_id);
                 }
                 //ArrowUp - 38
-                else if (event.keyCode == 38)
-                {
+                else if (event.keyCode == 38) {
                     DataSuggestBinder.Handlers.dataListKeyUp(element_id);
                 }
                 //Enter - 13
-                else if (event.keyCode == 13)
-                {
+                else if (event.keyCode == 13) {
                     DataSuggestBinder.Handlers.dataListEnterKey(element_id);
                 }
 
@@ -664,8 +663,8 @@ var DataSuggestBinder = {
         },
         onOptionItemMouseClick: function onOptionItemMouseHover(element_id) {
 
-            $('[' + definedAnswers.data_item_input_id_attribute_name + '="' + element_id + '"]' ).mousedown(function () {
-                Answers.setSelectedOption(element_id, $(this) );
+            $('[' + definedAnswers.data_item_input_id_attribute_name + '="' + element_id + '"]').mousedown(function () {
+                Answers.setSelectedOption(element_id, $(this));
             });
 
 
@@ -690,33 +689,33 @@ var DataSuggestBinder = {
             });
         },
         getAllGoogleSuggesters: function getAllGoogleSuggesters() {
-            return $('[' + definedAnswers.data_suggester_attribute_name + '="'  + definedAnswers.google_suggester_attribute_value + '"]' );
+            return $('[' + definedAnswers.data_suggester_attribute_name + '="' + definedAnswers.google_suggester_attribute_value + '"]');
         },
         getAllAmazonSuggesters: function getAllAmazonSuggesters() {
-            return $('[' + definedAnswers.data_suggester_attribute_name + '="'  + definedAnswers.amazon_suggester_attribute_value + '"]' );
+            return $('[' + definedAnswers.data_suggester_attribute_name + '="' + definedAnswers.amazon_suggester_attribute_value + '"]');
         }
     }
-    
+
 };
 
+function _suggest() {
 
-/** Default Suggest Binder : Binds all existing elements with appropriate rules.
- * Do not apply to Dynamically added Input Elements.
- * For Dynamically added Elements, you may use:  DataSuggestBinder.DataBinders.bindDataSuggester(element_id, data_suggester_name);
- *
- * Eg: DataSuggestBinder.DataBinders.bindDataSuggester('keyword_id', 'google-suggester');
- *     DataSuggestBinder.DataBinders.bindDataSuggester('keyword_id', 'amazon-suggester');
- *
- * */
+    /** Default Suggest Binder : Binds all existing elements with appropriate rules.
+     * Do not apply to Dynamically added Input Elements.
+     * For Dynamically added Elements, you may use:  DataSuggestBinder.DataBinders.bindDataSuggester(element_id, data_suggester_name);
+     *
+     * Eg: DataSuggestBinder.DataBinders.bindDataSuggester('keyword_id', 'google-suggester');
+     *     DataSuggestBinder.DataBinders.bindDataSuggester('keyword_id', 'amazon-suggester');
+     *
+     * */
+    $(document).ready(function () {
+        DataSuggestBinder.Defaults.setDefaultBindings();
+    });
 
-$(document).ready(function () {
-    DataSuggestBinder.Defaults.setDefaultBindings();
-});
+    //Re position all DataLists on window re-sizing
+    $(window).resize(function () {
+        Answers.rePositionAllDataLists();
+    });
+}
 
-
-//Re position all DataLists on window re-sizing
-$(window).resize(function () {
-    Answers.rePositionAllDataLists();
-});
-
-//Todo: On focus of option and pressing enter.
+_suggest();
